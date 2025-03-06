@@ -1,6 +1,7 @@
 package com.example.deliveryapp.store.service;
 
 import com.example.deliveryapp.menu.repository.MenuRepository;
+import com.example.deliveryapp.order.repository.OrderDetailRepository;
 import com.example.deliveryapp.order.repository.OrderRepository;
 import com.example.deliveryapp.review.repository.ReviewRepository;
 import com.example.deliveryapp.store.dto.request.StoreCreateRequestDto;
@@ -27,6 +28,8 @@ public class StoreService {
     private final OrderRepository orderRepository;
     private final MenuRepository menuRepository;
     private final ReviewRepository reviewRepository;
+    private final OrderDetailRepository orderDetailRepository;
+
     // 가게 생성 메서드
     public StoreResponseDto createStore(StoreCreateRequestDto storeCreateRequestDto, String username) {
         // 사장님 권한 확인
@@ -119,8 +122,10 @@ public class StoreService {
         }
         //각각의 repository삭제
         reviewRepository.deleteByStore(store);
+        orderDetailRepository.deleteByMenuStore(store);
         orderRepository.deleteByStore(store);
         menuRepository.deleteByStore(store);
+
 
         // 가게 삭제
         storeRepository.delete(store);

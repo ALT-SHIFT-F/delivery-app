@@ -2,6 +2,7 @@ package com.example.deliveryapp.order.entity;
 
 import com.example.deliveryapp.common.entity.BaseEntity;
 import com.example.deliveryapp.menu.entity.Menu;
+import com.example.deliveryapp.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,5 +37,7 @@ public class OrderDetail extends BaseEntity {
         this.quantity = quantity;
         this.price = price;
     }
-
+    public Store getStore() {
+        return menu.getStore();
+    }
 }
