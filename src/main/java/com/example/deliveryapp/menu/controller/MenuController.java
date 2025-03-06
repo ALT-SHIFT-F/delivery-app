@@ -23,14 +23,14 @@ public class MenuController {
 
     private final MenuService menuService;
 
-//    @OwnerUser
+    @OwnerUser
     @PostMapping
     public ResponseEntity<MenuSimpleResponseDto> createMenu(
             @Auth AuthUser user,
             @RequestBody @Valid MenuRequestDto dto,
             @PathVariable Long storeId) {
 
-        MenuSimpleResponseDto responseDto = menuService.saveMenu(dto, storeId);
+        MenuSimpleResponseDto responseDto = menuService.saveMenu(dto, storeId, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
