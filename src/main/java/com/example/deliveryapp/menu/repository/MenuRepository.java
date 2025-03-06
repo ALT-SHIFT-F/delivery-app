@@ -2,6 +2,7 @@ package com.example.deliveryapp.menu.repository;
 
 import com.example.deliveryapp.menu.entity.Menu;
 import com.example.deliveryapp.menu.enums.MenuStatus;
+import com.example.deliveryapp.store.entity.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,4 +36,5 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     boolean existsByStoreIdAndMenuNameAndMenuStatusNot(Long storeId, String menuName,MenuStatus status);
 
+    void deleteByStore(Store store);
 }

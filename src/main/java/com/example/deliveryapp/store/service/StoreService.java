@@ -1,5 +1,8 @@
 package com.example.deliveryapp.store.service;
 
+import com.example.deliveryapp.menu.repository.MenuRepository;
+import com.example.deliveryapp.order.repository.OrderRepository;
+import com.example.deliveryapp.review.repository.ReviewRepository;
 import com.example.deliveryapp.store.dto.request.StoreCreateRequestDto;
 import com.example.deliveryapp.store.dto.request.StoreUpdateRequestDto;
 import com.example.deliveryapp.store.dto.response.StoreResponseDto;
@@ -8,6 +11,7 @@ import com.example.deliveryapp.store.repository.StoreRepository;
 import com.example.deliveryapp.user.entity.User;
 import com.example.deliveryapp.user.enums.UserRole;
 import com.example.deliveryapp.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +24,9 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
-
+    private final OrderRepository orderRepository;
+    private final MenuRepository menuRepository;
+    private final ReviewRepository reviewRepository;
     // 가게 생성 메서드
     public StoreResponseDto createStore(StoreCreateRequestDto storeCreateRequestDto, String username) {
         // 사장님 권한 확인
@@ -101,6 +107,7 @@ public class StoreService {
 
 
     // 가게 삭제 메서드
+    @Transactional
     public void deleteStore(Long storeId, User storeOwner) {
         // 삭제하려는 가게 찾기
         Store store = storeRepository.findById(storeId)
@@ -110,6 +117,10 @@ public class StoreService {
         if (!store.getOwner().equals(storeOwner)) {
             throw new IllegalStateException("자신의 가게만 삭제할 수 있습니다.");
         }
+        //각각의 repository삭제
+        reviewRepository.deleteByStore(store);
+        orderRepository.deleteByStore(store);
+        menuRepository.deleteByStore(store);
 
         // 가게 삭제
         storeRepository.delete(store);

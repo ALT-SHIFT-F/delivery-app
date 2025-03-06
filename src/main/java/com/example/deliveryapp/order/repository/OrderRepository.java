@@ -1,6 +1,7 @@
 package com.example.deliveryapp.order.repository;
 
 import com.example.deliveryapp.order.entity.Order;
+import com.example.deliveryapp.store.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,4 +34,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "WHERE o.id = :orderId")
     Order findByOrderId(@Param("orderId") Long orderId);
 
+    void deleteByStore(Store store);
 }
