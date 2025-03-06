@@ -57,7 +57,7 @@ public class OrderController {
      * 주문 상태 변경 - 손님 : 주문 취소
      */
     @OrderRequest
-    @PatchMapping("/cancel/{orderId}")
+    @PatchMapping("/{orderId}/cancel")
     public ResponseEntity<OrderInfoResponseDto> cancelOrder(@Auth AuthUser authUser, @PathVariable Long orderId){
         OrderInfoResponseDto responseDto = orderService.cancelOrder(authUser, orderId);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -67,7 +67,7 @@ public class OrderController {
      * 주문 상태 변경 - 사장님 : 주문 수락
      */
     @OrderRequest
-    @PatchMapping("/accept/{orderId}")
+    @PatchMapping("/{orderId}/accept")
     public ResponseEntity<OrderInfoResponseDto> acceptOrder(@Auth AuthUser authUser, @PathVariable Long orderId){
         OrderInfoResponseDto responseDto = orderService.acceptOrder(authUser, orderId);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -77,7 +77,7 @@ public class OrderController {
      * 주문 상태 변경 - 사장님 : 주문 거절
      */
     @OrderRequest
-    @PatchMapping("/reject/{orderId}")
+    @PatchMapping("/{orderId}/reject")
     public ResponseEntity<OrderInfoResponseDto> rejectOrder(@Auth AuthUser authUser, @PathVariable Long orderId){
         OrderInfoResponseDto responseDto = orderService.rejectOrder(authUser, orderId);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -87,7 +87,7 @@ public class OrderController {
      * 주문 상태 변경 - 사장님 : 배달중
      */
     @OrderRequest
-    @PatchMapping("/delivering/{orderId}")
+    @PatchMapping("/{orderId}/delivering")
     public ResponseEntity<OrderInfoResponseDto> deliveringOrder(@Auth AuthUser authUser, @PathVariable Long orderId){
         OrderInfoResponseDto responseDto = orderService.deliveringOrder(authUser, orderId);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -97,7 +97,7 @@ public class OrderController {
      * 주문 상태 변경 - 사장님 : 배달완료
      */
     @OrderRequest
-    @PatchMapping("/complete/{orderId}")
+    @PatchMapping("/{orderId}/complete")
     public ResponseEntity<OrderInfoResponseDto> completeOrder(@Auth AuthUser authUser, @PathVariable Long orderId){
         OrderInfoResponseDto responseDto = orderService.completeOrder(authUser, orderId);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);

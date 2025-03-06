@@ -72,7 +72,7 @@ public class CartService {
     public CartResponseDto update(AuthUser authUser, CartUpdateRequestDto updateRequestDto, Long cartId) {
         // 일반 회원이 요청했는지 검증
         isValidCustomer(authUser);
-        Menu menu = menuRepository.findById(updateRequestDto.getMenuId()).orElseThrow(() -> new InvalidRequestException(ErrorCode.USER_NOT_FOUND));
+        Menu menu = menuRepository.findById(updateRequestDto.getMenuId()).orElseThrow(() -> new InvalidRequestException(ErrorCode.MENU_NOT_FOUND));
         Cart cart = cartRepository.findByIdWithMember(cartId).orElseThrow(() -> new InvalidRequestException(ErrorCode.CART_NOT_FOUND));
         // 자기 자신의 장바구니를 수정하는지 검증
         isCartOwnedByUser(authUser, cart);
