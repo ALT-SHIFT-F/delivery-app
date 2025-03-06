@@ -59,7 +59,17 @@ public class JwtFilter implements Filter {
                 return;
             }
 
-            UserRole userRole = UserRole.valueOf(claims.get("userRole", String.class));
+            // UserRole의 값을 문자열로 추출해보고 유효한 값인지 검증
+            String userRoleString = claims.get("userRole", String.class);
+            UserRole userRole = null;
+            try{
+                userRole = UserRole.valueOf(userRoleString);
+            }catch (IllegalArgumentException e){
+                log.error("유효하지 않은 UserRole={}", userRoleString);
+                httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "유효하지 않은 UserRole입니다.");
+                return;
+            }
+
 
             httpRequest.setAttribute("userId", Long.parseLong(claims.getSubject()));
             httpRequest.setAttribute("email", claims.get("email"));

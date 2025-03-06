@@ -1,5 +1,6 @@
 package com.example.deliveryapp.menu.service;
 
+import com.example.deliveryapp.auth.entity.AuthUser;
 import com.example.deliveryapp.menu.dto.request.MenuRequestDto;
 import com.example.deliveryapp.menu.dto.request.MenuSimpleUpdateRequestDto;
 import com.example.deliveryapp.menu.dto.response.MenuResponseDto;
@@ -10,6 +11,7 @@ import com.example.deliveryapp.menu.exception.DuplicateMenuException;
 import com.example.deliveryapp.menu.repository.MenuRepository;
 import com.example.deliveryapp.store.entity.Store;
 import com.example.deliveryapp.store.repository.StoreRepository;
+import com.example.deliveryapp.user.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,11 +28,22 @@ public class MenuService {
     private final StoreRepository storeRepository;
 
     @Transactional
-    public MenuSimpleResponseDto saveMenu(MenuRequestDto dto, Long storeId) {
+    public MenuSimpleResponseDto saveMenu(MenuRequestDto dto, Long storeId, AuthUser user) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new IllegalArgumentException("Store not found")
                 );
-        // 해당 스토어에 중복된 메뉴 이름 검증.
+
+        // 고객 계정이면 예외 발생
+        if (user.getUserRole() == UserRole.ROLE_CUSTOMER) {
+            throw new IllegalArgumentException("고객 계정은 메뉴를 추가할 수 없습니다.");
+        }
+
+        // 로그인한 사용자의 ID와 가게 주인 ID가 다르면 예외 발생
+        if (!store.getOwner().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("해당 가게의 메뉴를 추가할 권한이 없습니다.");
+        }
+
+        // 중복된 메뉴 이름 검증.
         if (menuRepository.existsByStoreIdAndMenuNameAndMenuStatusNot(storeId,dto.getMenuName(),MenuStatus.DELETED)) {
             throw new DuplicateMenuException(HttpStatus.BAD_REQUEST,"DUPLICATED_MENU","이미 존재하는 메뉴 이름입니다.");
         }
@@ -41,8 +54,7 @@ public class MenuService {
                 dto.getMenuCategory(),
                 dto.getMenuStatus(),
                 dto.getStockQuantity(),
-                dto.getDescription(),
-                store
+                dto.getDescription()
         );
 
         Menu savedMenu = menuRepository.save(menu);

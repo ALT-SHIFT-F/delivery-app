@@ -3,10 +3,7 @@ package com.example.deliveryapp.store.entity;
 import com.example.deliveryapp.common.entity.BaseEntity;
 import com.example.deliveryapp.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,6 +14,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "store")
+@Builder
 public class Store extends BaseEntity {  // BaseEntity 상속
 
     @Id
@@ -39,4 +37,15 @@ public class Store extends BaseEntity {  // BaseEntity 상속
     private User owner;  // 가게의 주인(사장님)
 
     private String address;
+
+    @Builder
+    public Store(String businessName, String category, LocalTime openingTime,
+                 LocalTime closingTime, Double minOrderPrice, User owner) {
+        this.businessName = businessName;
+        this.category = category;
+        this.openingTime = openingTime;
+        this.closingTime = closingTime;
+        this.minOrderPrice = minOrderPrice;
+        this.owner = owner;
+    }
 }
