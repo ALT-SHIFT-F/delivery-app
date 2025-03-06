@@ -64,6 +64,7 @@ public class JwtFilter implements Filter {
             httpRequest.setAttribute("userId", Long.parseLong(claims.getSubject()));
             httpRequest.setAttribute("email", claims.get("email"));
             httpRequest.setAttribute("userRole", claims.get("userRole"));
+            System.out.println("request에 set 완료");
 
             if (url.startsWith("/api/v1/owner")) {
                 // 사장 권한이 없는 경우 403을 반환합니다.

@@ -14,12 +14,14 @@ public enum ErrorCode {
     FORBIDDEN(HttpStatus.FORBIDDEN, "권한이 없습니다."),
     UNAUTHORIZED_REVIEW_UPDATE(HttpStatus.FORBIDDEN, "리뷰 수정 권한이 없습니다."),
     UNAUTHORIZED_REVIEW_DELETE(HttpStatus.FORBIDDEN, "리뷰 삭제 권한이 없습니다."),
+    ORDER_NOT_REVIEWABLE(HttpStatus.FORBIDDEN, "배달 완료된 주문만 리뷰를 작성할 수 있습니다."),
     INVALID_MEMBER_ACCESS(HttpStatus.FORBIDDEN, "일반 회원만 가능한 기능입니다."),
     INVALID_OWNER_ACCESS(HttpStatus.FORBIDDEN, "사장 회원만 가능한 기능입니다."),
 
     // 404 Not Found (리소스 없음)
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시물이 존재하지 않습니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 사용자가 존재하지 않습니다."),
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 주문이 존재하지 않습니다."),
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 메뉴가 존재하지 않습니다."),
     CART_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 장바구니가 존재하지 않습니다."),
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 가게가 존재하지 않습니다."),

@@ -28,4 +28,8 @@ public enum OrderStatus {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("데이터가 없습니다."));
     }
+    // 배달완료 상태 확인
+    public boolean isReviewable() {
+        return this == DELIVERED;
+    }
 }
