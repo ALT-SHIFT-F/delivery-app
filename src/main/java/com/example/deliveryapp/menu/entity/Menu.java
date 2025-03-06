@@ -54,13 +54,14 @@ public class Menu extends BaseEntity {
 
     @Builder
     public Menu(String menuName, BigDecimal price, MenuCategory menuCategory,
-                MenuStatus menuStatus, Integer stockQuantity, String description) {
+                MenuStatus menuStatus, Integer stockQuantity, String description, Store store) {
         this.menuName = menuName;
         this.price = price;
         this.menuCategory = menuCategory;
         this.menuStatus = menuStatus;
         this.stockQuantity = stockQuantity;
         this.description = description;
+        this.store = store;
     }
 
     public void simpleUpdate(MenuStatus menuStatus, Integer stockQuantity) {

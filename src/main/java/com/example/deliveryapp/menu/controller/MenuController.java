@@ -23,7 +23,7 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    //@OwnerUser
+    @OwnerUser
     @PostMapping
     public ResponseEntity<MenuSimpleResponseDto> createMenu(
             @Auth AuthUser user,

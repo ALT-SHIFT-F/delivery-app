@@ -41,7 +41,8 @@ public class MenuService {
                 dto.getMenuCategory(),
                 dto.getMenuStatus(),
                 dto.getStockQuantity(),
-                dto.getDescription()
+                dto.getDescription(),
+                store
         );
 
         Menu savedMenu = menuRepository.save(menu);
