@@ -37,6 +37,7 @@ public class ReviewService {
     private final OrderRepository orderRepository; //주문 정보 가져오기 위함
     private final StoreRepository storeRepository; //가게 정보 가져오기 위함
 
+    //리뷰작성
     @Transactional
     public ReviewSaveResponseDto save(AuthUser user, Long orderId, ReviewSaveRequestDto dto) {
 
@@ -49,7 +50,7 @@ public class ReviewService {
         Store store = storeRepository.findById(dto.getStoreId())
                     .orElseThrow(() -> new CustomException(STORE_NOT_FOUND));
 
-            // 주문 상태 체크: 완료된 주문만 리뷰 작성 가능
+        // 주문 상태 체크: 완료된 주문만 리뷰 작성 가능
         if (!order.getState().isReviewable()) {
             throw new CustomException(ErrorCode.ORDER_NOT_REVIEWABLE);
         }
