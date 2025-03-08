@@ -15,6 +15,7 @@ import com.example.deliveryapp.review.repository.ReviewRepository;
 import com.example.deliveryapp.store.entity.Store;
 import com.example.deliveryapp.store.repository.StoreRepository;
 import com.example.deliveryapp.user.entity.User;
+import com.example.deliveryapp.user.enums.UserRole;
 import com.example.deliveryapp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -49,6 +50,11 @@ public class ReviewService {
 
         Store store = storeRepository.findById(dto.getStoreId())
                     .orElseThrow(() -> new CustomException(STORE_NOT_FOUND));
+
+        // ROLE_CUSTOMER만 리뷰 작성 가능
+        if (user.getUserRole() != UserRole.ROLE_CUSTOMER) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
 
         // 주문 상태 체크: 완료된 주문만 리뷰 작성 가능
         if (!order.getState().isReviewable()) {

@@ -31,10 +31,6 @@ public class ReviewController {
             @PathVariable Long orderId,
             @Valid @RequestBody ReviewSaveRequestDto dto
     ) {
-        // ROLE_CUSTOMER만 리뷰 작성 가능
-        if (user.getUserRole() != UserRole.ROLE_CUSTOMER) {
-            throw new CustomException(ErrorCode.FORBIDDEN);
-        }
         return ResponseEntity.ok(reviewService.save(user, orderId, dto));
     }
 
